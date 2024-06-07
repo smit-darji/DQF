@@ -1,0 +1,88 @@
+{
+    "data_quality_checks": [
+        {
+            "function_name": "is_null",
+            "input_col_names": [
+                "LISTING_ID",
+                "INVH_LISTING_ID",
+                "REPORT_DATE"
+            ],
+            "action": "drop"
+        },
+        {
+            "function_name": "valid_zipcode",
+            "input_col_names": [
+                "LISTING_ZIPCODE"
+            ],
+            "action": "logging"
+        },
+        {
+            "function_name": "is_numeric",
+            "input_col_names": [
+                "TOTAL_IMPRESSIONS",
+                "TOTAL_LEADS",
+                "TOTAL_MEDIA_VIEW",
+                "TOTAL_IMPRESSIONS2",
+                "TOTAL_DETAILS_PAGE_VIEW",
+                "VIDEO_VIEWS",
+                "VIEWS_360",
+                "PHONE_LEADS",
+                "EMAIL_LEADS",
+                "PROPERTY_WEBSITE_LINKS"
+            ],
+            "action": "logging"
+        },
+        {
+            "function_name": "profiling",
+            "categorical_data_profiling": {
+                "input_col_names": [
+                    "LISTING_TYPE"
+                ]
+            },
+            "numerical_data_profiling": {
+                "input_col_names": [
+                    "TOTAL_IMPRESSIONS",
+                    "TOTAL_LEADS",
+                    "TOTAL_MEDIA_VIEW",
+                    "TOTAL_IMPRESSIONS2",
+                    "TOTAL_DETAILS_PAGE_VIEW",
+                    "VIDEO_VIEWS",
+                    "VIEWS_360",
+                    "PHONE_LEADS",
+                    "EMAIL_LEADS",
+                    "PROPERTY_WEBSITE_LINKS"
+                ]
+            },
+            "outliers": [
+                {
+                  "function_name": "quantile",
+                  "function_parameters": {
+                    "parameters": {
+                      "outlier_threshold_min": 25,
+                      "outlier_threshold_max": 75
+                    }
+                  },
+                  "input_col_name": [
+                    ""
+                  ],
+                  "historical_date_column": "",
+                  "historical_datapoints_days": 90
+                },
+                {
+                  "function_name": "quantile_with_iqr",
+                  "function_parameters": {
+                    "parameters": {
+                      "outlier_threshold_min": 25,
+                      "outlier_threshold_max": 75
+                    }
+                  },
+                  "input_col_name": [
+                    ""
+                  ],
+                  "historical_date_column": "",
+                  "historical_datapoints_days": 90
+                }
+              ]
+        }
+    ]
+}

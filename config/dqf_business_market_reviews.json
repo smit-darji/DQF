@@ -1,0 +1,98 @@
+{
+  "data_quality_checks": [
+    {
+      "function_name": "is_null",
+      "input_col_names": [
+        "REVIEW_ID",
+        "LOCATION_ID",
+        "PROVIDER_NAME",
+        "REVIEW_RATING"
+      ],
+      "action": "drop"
+    },
+    {
+      "function_name": "is_null",
+      "input_col_names": [
+        "REVIEWER_NAME",
+        "REVIEW_URL",
+        "REVIEW_TIMESTAMP"
+      ],
+      "action": "logging"
+    },
+    {
+      "function_name": "in_range",
+      "input_col_names": [
+        "REVIEW_RATING"
+      ],
+      "min_value": 1,
+      "max_value": 5,
+      "action": "drop"
+    },
+    {
+      "function_name": "verify_element",
+      "input_col_names": [
+        "PROVIDER_NAME"
+      ],
+      "value_set": [
+        "YELP",
+        "GOOGLE",
+        "YELLOWPAGES",
+        "BING",
+        "SUPERPAGES",
+        "YAHOO",
+        "BBB",
+        "FACEBOOK",
+        "APPLE",
+        "MERCHANTCIRCLE",
+        "CITYSEARCH",
+        "INSTAGRAM",
+        "FOURSQUARE"
+      ],
+      "action": "logging"
+    },
+    {
+      "function_name": "profiling",
+      "categorical_data_profiling": {
+        "input_col_names": [
+          "PROVIDER_NAME"
+        ]
+      },
+      "numerical_data_profiling": {
+        "input_col_names": [
+          "AVG_SENTIMENT_POLARITY",
+          "REVIEW_RATING"
+        ]
+      },
+      "outliers": [
+        {
+          "function_name": "quantile",
+          "function_parameters": {
+            "parameters": {
+              "outlier_threshold_min": 25,
+              "outlier_threshold_max": 75
+            }
+          },
+          "input_col_name": [
+            "PREVIOUS_REVIEW_RATING"
+          ],
+          "historical_date_column": "REVIEW_LAST_UPDATED_TIMESTAMP",
+          "historical_datapoints_days": 90
+        },
+        {
+          "function_name": "quantile_with_iqr",
+          "function_parameters": {
+            "parameters": {
+              "outlier_threshold_min": 25,
+              "outlier_threshold_max": 75
+            }
+          },
+          "input_col_name": [
+            "PREVIOUS_REVIEW_RATING"
+          ],
+          "historical_date_column": "REVIEW_LAST_UPDATED_TIMESTAMP",
+          "historical_datapoints_days": 90
+        }
+      ]
+    }
+  ]
+}

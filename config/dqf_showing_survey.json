@@ -1,0 +1,105 @@
+{
+    "data_quality_checks": [
+        {
+            "function_name": "is_null",
+            "input_col_names": [
+                "SURVEY_ID",
+                "RESPONSE_ID"
+            ],
+            "action": "drop"
+        },
+        {
+            "function_name": "is_null",
+            "input_col_names": [
+                "LEAD_ID",
+                "PROSPECT_ID",
+                "PROPERTY_ID",
+                "SHOWING_ID",
+                "SURVEY_END_LOCAL_TIMESTAMP"
+            ],
+            "action": "logging"
+        },
+        {
+            "function_name": "in_range",
+            "input_col_names": [
+                "NPS_SCORE"
+            ],
+            "min_value": 0,
+            "max_value": 10,
+            "action": "logging"
+        },
+        {
+            "function_name": "check_date_format",
+            "input_col_names": [
+                "SURVEY_END_LOCAL_TIMESTAMP",
+                "SHOWING_LOCAL_DATE"
+            ],
+            "min_value": "2010-01-01 01:41:06.000",
+            "max_value": "2099-12-31 17:36:32.395",
+            "action": "logging"
+        },
+        {
+            "function_name": "valid_email",
+            "input_col_names": [
+                "RECIPIENT_EMAIL"
+            ],
+            "action": "logging"
+        },
+        {
+            "function_name": "valid_phonenumber",
+            "input_col_names": [
+                "RECIPIENT_PHONE"
+            ],
+            "action": "logging"
+        },
+        {
+            "function_name": "valid_regex_pattern",
+            "input_col_names": [
+                "RESPONSE_ID",
+                "SURVEY_ID"
+            ],
+            "regex": [
+                "^R_",
+                "^SV_"
+            ],
+            "action": "logging"
+        },
+        {
+            "function_name": "valid_zipcode",
+            "input_col_names": [
+                "RECIPIENT_POSTAL_CODE"
+            ],
+            "action": "logging"
+        },
+        {
+            "function_name": "profiling",
+            "categorical_data_profiling": {
+                "input_col_names": [
+                    "SURVEY_NAME",
+                    "SHOWING_TYPE"
+                ]
+            },
+            "numerical_data_profiling": {
+                "input_col_names": [
+                    "NPS_SCORE"
+                ]
+            },
+            "outliers": [
+                {
+                    "function_name": "quantile",
+                    "function_parameters": {
+                        "parameters": {
+                            "outlier_threshold_min": 25,
+                            "outlier_threshold_max": 75
+                        }
+                    },
+                    "input_col_name": [
+                        "NPS_SCORE"
+                    ],
+                    "historical_date_column": "",
+                    "historical_datapoints_days": 90
+                }
+            ]
+        }
+    ]
+}

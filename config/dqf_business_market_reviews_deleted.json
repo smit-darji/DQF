@@ -1,0 +1,19 @@
+{
+  "data_quality_checks": [
+    {
+      "function_name": "is_null",
+      "input_col_names": [
+        "REVIEW_ID"
+      ],
+      "action": "drop"
+    },
+    {
+      "function_name": "is_null",
+      "input_col_names": [
+        "REMOVED_ON_TIMESTAMP",
+        "REVIEW_DELETED_REASON"
+      ],
+      "action": "logging"
+    }
+  ]
+}

@@ -1,0 +1,90 @@
+{
+  "data_quality_checks": [
+    {
+      "function_name": "is_null",
+      "input_col_names": [
+        "SURVEY_ID",
+        "RESPONSE_ID"
+      ],
+      "action": "drop"
+    },
+    {
+      "function_name": "is_null",
+      "input_col_names": [
+        "RESIDENT_ID",
+        "PROPERTY_ID",
+        "WO_ID"
+      ],
+      "action": "logging"
+    },
+    {
+      "function_name": "in_range",
+      "input_col_names": [
+        "NPS_SCORE"
+      ],
+      "min_value": 0,
+      "max_value": 10,
+      "action": "drop"
+    },
+    {
+      "function_name": "check_date_format",
+      "input_col_names": [
+        "SURVEY_END_LOCAL_TIMESTAMP"
+      ],
+      "min_value": "2010-01-01 01:41:06.000",
+      "max_value": "2099-12-31 17:36:32.395",
+      "action": "logging"
+    },
+    {
+      "function_name": "valid_phonenumber",
+      "input_col_names": [
+        "RECIPIENT_PHONE"
+      ],
+      "action": "logging"
+    },
+    {
+      "function_name": "valid_email",
+      "input_col_names": [
+        "RECIPIENT_EMAIL"
+      ],
+      "action": "logging"
+    },
+    {
+      "function_name": "valid_zipcode",
+      "input_col_names": [
+        "RECIPIENT_POSTAL_CODE"
+      ],
+      "action": "logging"
+    },
+    {
+      "function_name": "profiling",
+      "categorical_data_profiling": {
+        "input_col_names": [
+          "SURVEY_NAME",
+          "SURVEY_SOURCE"
+        ]
+      },
+      "numerical_data_profiling": {
+        "input_col_names": [
+          "NPS_SCORE"
+        ]
+      },
+      "outliers": [
+        {
+          "function_name": "quantile",
+          "function_parameters": {
+            "parameters": {
+              "outlier_threshold_min": 25,
+              "outlier_threshold_max": 55
+            }
+          },
+          "input_col_name": [
+            "NPS_SCORE"
+          ],
+          "historical_date_column": "",
+          "historical_datapoints_days": 90
+        }
+      ]
+    }
+  ]
+}

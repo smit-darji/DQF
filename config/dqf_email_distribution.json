@@ -1,0 +1,66 @@
+{
+    "data_quality_checks": [
+        {
+            "function_name": "is_null",
+            "input_col_names": [
+                "CONTACT_ID",
+                "DISTRIBUTION_ID",
+                "SURVEY_ID"
+            ],
+            "action": "drop"
+        },
+        {
+            "function_name": "valid_regex_pattern",
+            "input_col_names": [
+                "CONTACT_ID",
+                "DISTRIBUTION_ID",
+                "SURVEY_ID",
+                "RESPONSE_ID"
+            ],
+            "regex": [
+                "^CID_",
+                "^EMD_",
+                "^SV_",
+                "^R_"
+            ],
+            "action": "logging"
+        },
+        {
+            "function_name": "profiling",
+            "categorical_data_profiling": {
+                "input_col_names": [
+                    "SURVEY_STATUS"
+                ]
+            },
+            "numerical_data_profiling": {
+                "input_col_names": []
+            },
+            "outliers": [
+                {
+                  "function_name": "quantile",
+                  "function_parameters": {
+                    "parameters": {
+                      "outlier_threshold_min": 25,
+                      "outlier_threshold_max": 75
+                    }
+                  },
+                  "input_col_name": [],
+                  "historical_date_column": "SURVEY_SENT_TIMESTAMP",
+                  "historical_datapoints_days": 90
+                },
+                {
+                  "function_name": "quantile_with_iqr",
+                  "function_parameters": {
+                    "parameters": {
+                      "outlier_threshold_min": 25,
+                      "outlier_threshold_max": 75
+                    }
+                  },
+                  "input_col_name": [],
+                  "historical_date_column": "SURVEY_SENT_TIMESTAMP",
+                  "historical_datapoints_days": 90
+                }
+              ]
+        }
+    ]
+}

@@ -1,0 +1,98 @@
+{
+  "data_quality_checks": [
+    {
+      "function_name": "is_null",
+      "input_col_names": [
+        "LOCATION_ID",
+        "LISTING_ID",
+        "PROVIDER_NAME"
+      ],
+      "action": "drop"
+    },
+    {
+      "function_name": "is_null",
+      "input_col_names": [
+        "BUSINESS_RATING"
+      ],
+      "action": "logging"
+    },
+    {
+      "function_name": "in_range",
+      "input_col_names": [
+        "BUSINESS_RATING"
+      ],
+      "min_value": 0,
+      "max_value": 5,
+      "action": "drop"
+    },
+    {
+      "function_name": "verify_element",
+      "input_col_names": [
+        "PROVIDER_NAME"
+      ],
+      "value_set": [
+        "YELP",
+        "GOOGLE",
+        "YELLOWPAGES",
+        "BING",
+        "SUPERPAGES",
+        "YAHOO",
+        "BBB",
+        "FACEBOOK",
+        "APPLE",
+        "MERCHANTCIRCLE",
+        "CITYSEARCH",
+        "INSTAGRAM",
+        "FOURSQUARE"
+      ],
+      "action": "logging"
+    },
+    {
+      "function_name": "profiling",
+      "categorical_data_profiling": {
+        "input_col_names": [
+          "BUSINESS_CITY"
+        ]
+      },
+      "numerical_data_profiling": {
+        "input_col_names": [
+          "TOTAL_REVIEWS_COUNT",
+          "PUBLIC_REVIEWS_COUNT",
+          "BUSINESS_RATING",
+          "TOTAL_NOT_RECOMMENDED_COUNT",
+          "TOTAL_RECOMMENDED_COUNT"
+        ]
+      },
+      "outliers": [
+        {
+          "function_name": "quantile",
+          "function_parameters": {
+            "parameters": {
+              "outlier_threshold_min": 25,
+              "outlier_threshold_max": 75
+            }
+          },
+          "input_col_name": [
+            "TOTAL_REVIEWS_COUNT"
+          ],
+          "historical_date_column": "LAST_UPDATED_TIMESTAMP",
+          "historical_datapoints_days": 90
+        },
+        {
+          "function_name": "quantile_with_iqr",
+          "function_parameters": {
+            "parameters": {
+              "outlier_threshold_min": 25,
+              "outlier_threshold_max": 75
+            }
+          },
+          "input_col_name": [
+            "TOTAL_REVIEWS_COUNT"
+          ],
+          "historical_date_column": "LAST_UPDATED_TIMESTAMP",
+          "historical_datapoints_days": 90
+        }
+      ]
+    }
+  ]
+}
